@@ -1,24 +1,21 @@
 import React from 'react';
-import YoutubeLogo from './YoutubeLogo';
-
-import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
+import { YoutubeLogo, BellIcon, CreateIcon } from './icons/Icons.js';
 
 import { AiOutlineMenu } from 'react-icons/ai';
 import { MdMic } from 'react-icons/md';
 import { IoIosSearch } from 'react-icons/io';
+import { BiDotsVerticalRounded } from 'react-icons/bi';
 
-const ColorButton = styled(Button)({
-  color: '#1145a4',
-  outline: '#1145a4',
-  '&:hover': {},
-});
+import SignInBtn from './SignInBtn';
+import ProfileDropDown from './ProfileDropDown';
 
-const Nav = () => {
+const Nav = ({ isUserSignIn, user }) => {
   return (
-    <nav className="flex items-center justify-between px-6 border-solid border-[1px] border-[#33333339] ">
+    <nav className="flex items-center justify-between w-full py-1 px-8 border-solid border-[1px] border-[#33333339] border-r-0">
       <div className="left-nav-items flex items-center gap-[2rem]">
-        <AiOutlineMenu className="text-2xl" />
+        <button>
+          <AiOutlineMenu className="text-xl" />
+        </button>
         <YoutubeLogo />
       </div>
       <div className="middle-nav-items flex items-center w-[45%]">
@@ -32,8 +29,25 @@ const Nav = () => {
         </button>
         <MdMic className="ml-[3%] text-black text-3xl" />
       </div>
-      <div className="right-nav-items">
-        <ColorButton variant="outlined">Sign In</ColorButton>
+      <div className="right-nav-items flex items-center space-x-6 relative z-10 scale-110">
+        {isUserSignIn ? (
+          <div className="flex items-center space-x-6">
+            <button className=" active:bg-[#e2e2e2] p-2 rounded-full">
+              <CreateIcon />
+            </button>
+            <button className=" active:bg-[#e2e2e2] p-2 rounded-full">
+              <BellIcon />
+            </button>
+            <ProfileDropDown user={user} />
+          </div>
+        ) : (
+          <>
+            <button>
+              <BiDotsVerticalRounded className="text-xl" />
+            </button>
+            <SignInBtn />
+          </>
+        )}
       </div>
     </nav>
   );
