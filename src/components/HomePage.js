@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import VideoCard from './VideoCard';
 
-const MainContent = () => {
+const HomePage = () => {
   const [videos, setVideos] = useState(null);
   const [userRegion, setUserRegion] = useState(null);
   const API_KEY = useRef('AIzaSyD2wcS9IPUkC6wkC3GtPvBfesIGwrQkIi0');
+
 
   useEffect(() => {
     fetch('http://ip-api.com/json')
@@ -15,7 +16,7 @@ const MainContent = () => {
     if (!userRegion) return;
 
     fetch(
-      `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=${'15'}&regionCode=${userRegion}&key=${API_KEY.current
+      `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=${'160'}&regionCode=${userRegion}&key=${API_KEY.current
       }`
     )
       .then((res) => res.json())
@@ -25,7 +26,7 @@ const MainContent = () => {
 
 
   return (
-    <div className="content py-6 px-[120px] w-full bg-[#f8f8f8]">
+    <div className="home-page py-6 min-h-[100vh] px-[120px] w-full bg-[#f8f8f8]">
       {videos
         ? videos.map((video, i) => (
           <VideoCard key={i} video={video} API_KEY={API_KEY} />
@@ -35,4 +36,4 @@ const MainContent = () => {
   );
 };
 
-export default MainContent;
+export default HomePage;

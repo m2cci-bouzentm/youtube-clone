@@ -20,9 +20,9 @@ const SideBarBtn = (btnText, Icon) => (
   </div>
 );
 
-const SideBar = ({ isUserSignIn }) => {
+const FloatingSideBar = ({ isUserSignIn }) => {
   return (
-    <div className="side-bar text-sm w-[250px] space-y-2">
+    <div className="absolute left-0 bg-white h-full z-10 side-bar text-sm w-[250px] space-y-2">
       <Link to="/">{SideBarBtn('Home', HomeIcon)}</Link>
       {SideBarBtn('Explore', ExploreIcon)}
       {SideBarBtn('Subscriptions', subscribeIcon)}
@@ -46,7 +46,7 @@ const SideBar = ({ isUserSignIn }) => {
         </>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default SideBar;
+export default FloatingSideBar

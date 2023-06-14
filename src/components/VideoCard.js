@@ -1,4 +1,51 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+
+const getViews = (video) => {
+  if (video.statistics.viewCount / 1000 < 1000) {
+    return `${(video.statistics.viewCount / 1000).toFixed(1)}K`;
+  } else {
+    return `${(video.statistics.viewCount / 1000000).toFixed(1)}M`;
+  }
+};
+function getTimeDifference(givenDate) {
+  const now = new Date();
+  const targetDate = new Date(givenDate);
+
+  const timeDiff = targetDate.getTime() - now.getTime();
+
+  const diffInMilliseconds = Math.abs(timeDiff);
+
+  const years = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24 * 365));
+  const days = Math.floor(
+    (diffInMilliseconds % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24)
+  );
+  const hours = Math.floor(
+    (diffInMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+  );
+  const minutes = Math.floor(
+    (diffInMilliseconds % (1000 * 60 * 60)) / (1000 * 60)
+  );
+
+  if (years === 1) {
+    return years + ' year ago';
+  } else if (years > 1) {
+    return years + ' years ago';
+  } else if (days === 7) {
+    return (days / 7).toFixed(0) + ' week ago';
+  } else if (days > 14) {
+    return (days / 7).toFixed(0) + ' weeks ago';
+  } else if (days === 1) {
+    return days + ' day ago';
+  } else if (days > 1) {
+    return days + ' days ago';
+  } else if (hours === 1) {
+    return hours + ' hour ago';
+  } else if (hours > 1) {
+    return hours + ' hours ago';
+  } else {
+    return minutes + ' minutes ago';
+  }
+}
 
 const VideoCard = ({ video, API_KEY }) => {
   const [channelData, setChannelData] = useState(null);
@@ -13,57 +60,10 @@ const VideoCard = ({ video, API_KEY }) => {
     });
   }, []);
 
-  const getViews = (video) => {
-    if (video.statistics.viewCount / 1000 < 1000) {
-      return `${(video.statistics.viewCount / 1000).toFixed(1)}K`;
-    } else {
-      return `${(video.statistics.viewCount / 1000000).toFixed(1)}M`;
-    }
-  };
-  function getTimeDifference(givenDate) {
-    const now = new Date();
-    const targetDate = new Date(givenDate);
-
-    const timeDiff = targetDate.getTime() - now.getTime();
-
-    const diffInMilliseconds = Math.abs(timeDiff);
-
-    const years = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24 * 365));
-    const days = Math.floor(
-      (diffInMilliseconds % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24)
-    );
-    const hours = Math.floor(
-      (diffInMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    );
-    const minutes = Math.floor(
-      (diffInMilliseconds % (1000 * 60 * 60)) / (1000 * 60)
-    );
-
-    if (years === 1) {
-      return years + ' year ago';
-    } else if (years > 1) {
-      return years + ' years ago';
-    } else if (days === 7) {
-      return (days / 7).toFixed(0) + ' week ago';
-    } else if (days > 14) {
-      return (days / 7).toFixed(0) + ' weeks ago';
-    } else if (days === 1) {
-      return days + ' day ago';
-    } else if (days > 1) {
-      return days + ' days ago';
-    } else if (hours === 1) {
-      return hours + ' hour ago';
-    } else if (hours > 1) {
-      return hours + ' hours ago';
-    } else {
-      return minutes + ' minutes ago';
-    }
-  }
-
   if (!video.snippet.thumbnails.maxres) return;
 
   return (
-    <a href="#" className='h-[320px]'>
+    <a href="#" className="h-[320px] w-max">
       <div className="video-card space-y-3 w-[340px]">
         <div className="thumbnail relative">
           <img

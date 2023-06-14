@@ -18,7 +18,7 @@ const app = initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider();
 provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
-const auth = getAuth();
+const auth = getAuth(app);
 
 
 export { auth, provider };

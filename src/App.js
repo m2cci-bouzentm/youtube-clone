@@ -1,25 +1,49 @@
 import './index.css';
 import Nav from './components/Nav';
-import SideBar from './components/SideBar';
-import MainContent from './components/MainContent';
+import HomePage from './components/HomePage';
+import WhichSideBar from './components/WhichSideBar';
+import VideoPage from './components/videoPage/VideoPage';
 
 import { useState } from 'react';
 import MyContext from './MyContext';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
   const [isUserSignIn, setIsUserSignIn] = useState(false);
   const [user, setUser] = useState(null);
 
+  const [isMiniSideBar, setIsMiniSideBar] = useState(false);
+  const [videoIdInUrl, setVideoIdInUrl] = useState(null);
+
   return (
-    <>
+    <BrowserRouter>
       <MyContext.Provider value={{ setIsUserSignIn, setUser }}>
-        <Nav isUserSignIn={isUserSignIn} user={user} />
-        <div className="main w-full flex">
-          <SideBar isUserSignIn={isUserSignIn} />
-          <MainContent />
+        <Nav
+          isUserSignIn={isUserSignIn}
+          user={user}
+          isMiniSideBar={isMiniSideBar}
+          setIsMiniSideBar={setIsMiniSideBar}
+        />
+        <div className="relative main w-full flex">
+          <WhichSideBar
+            isUserSignIn={isUserSignIn}
+            isMiniSideBar={isMiniSideBar}
+          />
+
+          <Routes>
+            <Route
+              path="/"
+              element={<HomePage />}
+            />
+            <Route
+              path="/:videoId"
+              element={<VideoPage />}
+            />
+          </Routes>
+
         </div>
       </MyContext.Provider>
-    </>
+    </BrowserRouter>
   );
 }
 

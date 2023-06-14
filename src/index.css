@@ -16,7 +16,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Roboto', sans-serif;
+  font-family:  Arial, sans-serif;
 }
 
 nav input {
@@ -42,13 +42,13 @@ nav .middle-nav-items button {
   margin: 6px 0;
   padding: 8px 20px;
 }
-.content {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-column-gap: 12px;
-row-gap: 30px;
-align-items: center;
-justify-content: center;
+.home-page {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(335px, 1fr));
+  column-gap: 12px;
+  row-gap: 30px;
+  align-items: center;
+  justify-items: center;
 }
 .video-duration {
   background-color: #000;
@@ -61,4 +61,7 @@ justify-content: center;
   bottom: 5px;
   padding: 0px 4px;
   border-radius: 2px;
+}
+button {
+  transition: all 150ms ease-in-out;
 }
