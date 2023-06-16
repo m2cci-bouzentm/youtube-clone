@@ -29,7 +29,7 @@ const HomePage = ({ API_KEY, setIsSearching, setIsMiniSideBar }) => {
 
   useEffect(() => {
     getUserRegion();
-    if (!userRegion) return;
+    if (!userRegion) setUserRegion('US');
     getVideos(180);
   }, [userRegion]);
 
