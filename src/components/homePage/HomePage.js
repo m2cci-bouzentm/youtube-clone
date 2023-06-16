@@ -20,7 +20,7 @@ const HomePage = ({ API_KEY, setIsSearching, setIsMiniSideBar }) => {
   };
   const getVideos = (videoNum) => {
     fetch(
-      `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=${videoNum}&regionCode=${userRegion}&key=${API_KEY.current}`
+      `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=${videoNum}&regionCode=${userRegion || 'US'}&key=${API_KEY.current}`
     )
       .then((res) => res.json())
       .then((data) => setVideos(data.items))
@@ -29,7 +29,6 @@ const HomePage = ({ API_KEY, setIsSearching, setIsMiniSideBar }) => {
 
   useEffect(() => {
     getUserRegion();
-    if (!userRegion) setUserRegion('US');
     getVideos(180);
   }, [userRegion]);
 
