@@ -6,7 +6,7 @@ import VideoPage from './components/videoPage/VideoPage';
 
 import { useRef, useState } from 'react';
 import MyContext from './MyContext';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import SearchPage from './components/searchPage/SearchPage';
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
   // AIzaSyCwaxU0T1Z3AYmK0d6gL0B_XK8lrYvMl-A
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <MyContext.Provider
         value={{ setIsUserSignIn, isUserSignIn, setUser, user }}
       >
@@ -67,7 +67,7 @@ function App() {
           </Routes>
         </div>
       </MyContext.Provider>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
