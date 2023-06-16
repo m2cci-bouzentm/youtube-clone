@@ -5,11 +5,11 @@ import FloatingSideBar from './FloatingSideBar';
 
 import { useLocation } from 'react-router-dom';
 
-const WhichSideBar = ({ isUserSignIn, isMiniSideBar }) => {
+const WhichSideBar = ({ isUserSignIn, isMiniSideBar, setIsMiniSideBar }) => {
   const location = useLocation();
-  console.log(location.pathname !== '/');
-  if (location.pathname !== '/')
-    return isMiniSideBar ? <FloatingSideBar isUserSignIn={isUserSignIn} /> : '';
+
+  if (location.pathname.includes('watch'))
+    return <FloatingSideBar isUserSignIn={isUserSignIn} isMiniSideBar={isMiniSideBar} setIsMiniSideBar={setIsMiniSideBar} />;
 
   if (isMiniSideBar) return <MiniSideBar isUserSignIn={isUserSignIn} />;
   else return <SideBar isUserSignIn={isUserSignIn} />;

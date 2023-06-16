@@ -1,27 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { getViews, getTimeDifference } from '../../helperFunctions';
 
-const SuggestedVideo = () => {
+const SuggestedVideo = ({ relatedVideo, API_KEY }) => {
+  const [video, setVideo] = useState(null);
+
+  useEffect(() => {
+    fetch(
+      `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${relatedVideo.id.videoId}&key=${API_KEY.current}`
+    )
+      .then((res) => res.json())
+      .then((relatedVidData) => setVideo(relatedVidData))
+      .catch((err) => console.error(err));
+  }, []);
+
+  if (!video || !video.items) return;
+
   return (
     <div className="suggested-video-1 flex space-x-2 text-sm">
-      <div className="thumbnail-container">
-        <img
-          src="https://i.ytimg.com/vi/e5mzDsQu_mE/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCRVJ0VozYAHq72To2yz1nVzql0zw"
-          alt="thumbnail"
-          className="rounded-lg"
-        />
+      <div className="thumbnail-container max-w-[170px]">
+        <Link to={`/watch/${relatedVideo.id.videoId}`}>
+          <img
+            src={
+              relatedVideo.snippet.thumbnails.medium
+                ? relatedVideo.snippet.thumbnails.medium.url
+                : relatedVideo.snippet.thumbnails.high.url
+            }
+            alt="thumbnail"
+            className="rounded-lg max-w-[170px]"
+          />
+        </Link>
       </div>
       <div className="details">
-        <div className="title text-md font-bold mb-[5px]">
-          <h3>
-            [Playlist] songs that make you feel like a Lucifer Morningstar
-          </h3>
+        <div className="title text-md font-bold mb-2 text-gray-800">
+          <Link to={`/watch/${relatedVideo.id.videoId}`}>
+            <h3>{relatedVideo.snippet.title}</h3>
+          </Link>
         </div>
-        <div className="channel-name text-gray-600">
-          <span>𝑹𝒆𝒅 𝑹𝒖𝒎</span>
+        <div className="channel-name text-gray-600 mb-1">
+          <span>{relatedVideo.snippet.channelTitle}</span>
         </div>
         <div className="video-statistics flex space-x-2 text-gray-600">
-          <span>1.4M views</span>
-          <span>• 10 months ago</span>
+          <span>{getViews(video.items[0])} views</span>
+          <span>• {getTimeDifference(video.items[0].snippet.publishedAt)}</span>
         </div>
       </div>
     </div>

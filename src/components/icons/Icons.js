@@ -3,7 +3,7 @@ const MenuIcon = () => (
     viewBox="0 0 24 24"
     preserveAspectRatio="xMidYMid meet"
     focusable="false"
-    className="w-[24px] w-[24px]"
+    className="w-[24px] h-[24px]"
   >
     <g>
       <path d="M21,6H3V5h18V6z M21,11H3v1h18V11z M21,17H3v1h18V17z"></path>
@@ -96,7 +96,6 @@ const ProfileIcon = () => (
   </svg>
 );
 
-
 const YoutubeLogo = () => (
   <svg
     viewBox="0 0 90 20"
@@ -130,7 +129,6 @@ const YoutubeLogo = () => (
   </svg>
 );
 
-
 const SignOutIcon = () => (
   <svg
     viewBox="0 0 24 24"
@@ -143,7 +141,6 @@ const SignOutIcon = () => (
     </g>
   </svg>
 );
-
 
 const BellIcon = () => (
   <svg
@@ -277,6 +274,31 @@ const SortIcon = () => (
     </g>
   </svg>
 );
+const FilterIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    preserveAspectRatio="xMidYMid meet"
+    focusable="false"
+    className="w-[24px]"
+  >
+    <g>
+      <path d="M15,17h6v1h-6V17z M11,17H3v1h8v2h1v-2v-1v-2h-1V17z M14,8h1V6V5V3h-1v2H3v1h11V8z M18,5v1h3V5H18z M6,14h1v-2v-1V9H6v2H3v1 h3V14z M10,12h11v-1H10V12z"></path>
+    </g>
+  </svg>
+);
+const RepliesIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    preserveAspectRatio="xMidYMid meet"
+    focusable="false"
+    className="w-[24px]"
+    fill='#0e64d5'
+  >
+    <g>
+      <path d="M18,9l-6,6L6,9H18z"></path>
+    </g>
+  </svg>
+);
 export {
   MenuIcon,
   ProfileIcon,
@@ -298,4 +320,6 @@ export {
   ShareIcon,
   SaveIcon,
   SortIcon,
+  FilterIcon,
+  RepliesIcon,
 };

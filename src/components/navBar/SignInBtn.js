@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import { ProfileIcon } from './icons/Icons.js';
-import MyContext from '../MyContext';
+import { ProfileIcon } from '../icons/Icons';
+import MyContext from '../../MyContext';
 
-import { provider, auth } from '../firebase.js';
+import { provider, auth } from '../../firebase.js';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 import Button from '@mui/material/Button';

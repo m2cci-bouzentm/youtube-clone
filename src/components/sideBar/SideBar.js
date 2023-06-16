@@ -7,12 +7,12 @@ import {
   YourVideosIcon,
   WatchLaterIcon,
   LikedVideosIcon,
-} from './icons/Icons.js';
-import SignInBtn from './SignInBtn';
+} from '../icons/Icons';
+import SignInBtn from '../navBar/SignInBtn';
 import { Link } from "react-router-dom";
 
 const SideBarBtn = (btnText, Icon) => (
-  <div className="flex cursor-pointer w-full items-center justify-start px-6 py-3 text-gray-800 hover:bg-gray-200">
+  <div className="flex cursor-pointer w-full rounded-xl items-center justify-start pl-3 pr-6 py-3 text-gray-800 hover:bg-gray-200">
     <span>
       <Icon />
     </span>
@@ -20,9 +20,9 @@ const SideBarBtn = (btnText, Icon) => (
   </div>
 );
 
-const FloatingSideBar = ({ isUserSignIn }) => {
+const SideBar = ({ isUserSignIn }) => {
   return (
-    <div className="absolute left-0 bg-white h-full z-10 side-bar text-sm w-[250px] space-y-2">
+    <div className="side-bar text-sm py-1 px-8 pr-2 w-[250px] space-y-2">
       <Link to="/">{SideBarBtn('Home', HomeIcon)}</Link>
       {SideBarBtn('Explore', ExploreIcon)}
       {SideBarBtn('Subscriptions', subscribeIcon)}
@@ -46,7 +46,7 @@ const FloatingSideBar = ({ isUserSignIn }) => {
         </>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default FloatingSideBar
+export default SideBar;

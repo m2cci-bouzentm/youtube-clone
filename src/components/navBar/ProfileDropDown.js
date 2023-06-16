@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
-import { SignOutIcon } from './icons/Icons';
+import { SignOutIcon } from '../icons/Icons';
 import { signOut } from 'firebase/auth';
-import { auth } from '../firebase.js';
-import MyContext from '../MyContext';
+import { auth } from '../../firebase.js';
+import MyContext from '../../MyContext';
 
 const ProfileDropDown = ({ user }) => {
   const [isDropDownMenu, setIsDropDownMenu] = useState(false);

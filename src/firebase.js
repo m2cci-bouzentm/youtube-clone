@@ -11,9 +11,6 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-// youtube API key: AIzaSyD2wcS9IPUkC6wkC3GtPvBfesIGwrQkIi0
-// Client ID 537550941145-vo16vql5bn2gic104o1ejab5t7rcbdga.apps.googleusercontent.com
-// Client secret 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
 
 const provider = new GoogleAuthProvider();
 provider.addScope('https://www.googleapis.com/auth/contacts.readonly');

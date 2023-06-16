@@ -10,7 +10,7 @@ import {
   YourVideosIcon,
   WatchLaterIcon,
   LikedVideosIcon,
-} from './icons/Icons.js';
+} from '../icons/Icons';
 
 const MiniSideBarBtn = (btnText, Icon) => (
   <div className="flex flex-col cursor-pointer w-full h-full items-center justify-center px-6 py-2 space-y-2 text-gray-800 hover:bg-gray-200">

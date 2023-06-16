@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   LikeIcon,
   DislikeIcon,
@@ -11,36 +11,144 @@ import Description from './Description';
 import WriteComment from './WriteComment';
 import Comment from './Comment';
 import SuggestedVideo from './SuggestedVideo';
+import { useParams } from 'react-router-dom';
+import { getLikes, getSubscribersCount } from '../../helperFunctions';
 
-const VideoPage = () => {
+const VideoPage = ({
+  API_KEY,
+  isMiniSideBar,
+  setIsMiniSideBar,
+  setIsSearching,
+}) => {
+  const [video, setVideo] = useState(null);
+  const [channelData, setChannelData] = useState(null);
+  const [relatedVideos, setRelatedVideos] = useState(null);
+  const [comments, setComments] = useState(null);
+
+  const { videoId } = useParams();
+
+  const relatedVideosNumber = useRef(20);
+
+  useEffect(() => {
+    setIsMiniSideBar(false);
+    setIsSearching(false);
+  }, []);
+
+  const getVideo = () => {
+    fetch(
+      `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${videoId}&key=${API_KEY.current}`
+    )
+      .then((res) => res.json())
+      .then((videoData) => setVideo(videoData))
+      .catch((err) => console.error(err));
+  };
+  const getRelatedVideos = (videosNum) => {
+    fetch(
+      `     https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=${videosNum}&relatedToVideoId=${videoId}&type=video&key=${API_KEY.current}`
+    )
+      .then((res) => res.json())
+      .then((relatedVidData) => setRelatedVideos(relatedVidData))
+      .catch((err) => console.error(err));
+  };
+  const getChannelData = () => {
+    fetch(
+      `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id=${video.items[0].snippet.channelId}&key=${API_KEY.current}`
+    )
+      .then((res) => res.json())
+      .then((data) => setChannelData(data))
+      .catch((err) => console.error(err));
+  };
+  const getComments = () => {
+    fetch(
+      `https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet%2Creplies&videoId=${videoId}&key=${API_KEY.current}`
+    )
+      .then((res) => res.json())
+      .then((commentsData) => setComments(commentsData))
+      .catch((err) => console.error(err));
+  };
+  const getMoreComments = () => {
+    fetch(
+      `https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet%2Creplies&pageToken=${comments.nextPageToken}&videoId=${videoId}&key=${API_KEY.current}`
+    )
+      .then((res) => res.json())
+      .then((commentsData) => setComments(commentsData))
+      .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    // video data
+    getVideo();
+
+    //related videos data
+    getRelatedVideos(relatedVideosNumber.current);
+
+    //comments
+    getComments();
+  }, [videoId]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+
+    if (!video) return;
+    //channel data
+    getChannelData();
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [video]);
+
+  const handleScroll = (e) => {
+    const bodyHeight = document.body.offsetHeight;
+    const scrolledToBottom =
+      window.scrollY + window.innerHeight >= bodyHeight - 1;
+
+    if (scrolledToBottom && comments) {
+      getMoreComments();
+    }
+  };
+
+  if (!video || !relatedVideos || !channelData || !comments) return;
+
   return (
-    <div className="video-page flex space-x-[2%] py-8 px-[80px] w-full min-h-[100vh]">
+    <div
+      className={`video-page flex space-x-[2%] py-8 px-[80px] w-full min-h-[100vh] ${isMiniSideBar ? 'pointer-events-none' : ''
+        }`}
+    >
       <div className="first-col w-[70%] space-y-4">
-        { }
         <div className="video-container">
           <iframe
-            src="https://www.youtube.com/embed/fzAyZ1Lh-zI?autoplay=1"
+            src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
             frameBorder="0"
             title="video"
             className="w-full h-[70vh] "
           ></iframe>
         </div>
-        { }
         <div className="video-title font-bold text-xl">
-          <h3>Melanie Martinez - VOID (Official Music Video)</h3>
+          <h3>{video.items[0].snippet.title}</h3>
         </div>
-        { }
         <div className="video-details py-2 flex justify-between items-end border-b-[1px] border-[#7575755a]">
           <div className="video-details-left channel space-x-3">
             <div className="channel-left flex space-x-3">
-              <img
-                src="https://yt3.ggpht.com/hib75A2V1CCLJX9OIr4eYS6Hnx7VM8XVkPLM_qc8Z87vqz76vyJgFfpD7Mn30BuxakqkH3Uv=s88-c-k-c0x00ffffff-no-nd-rj"
-                alt="chanel-pic"
-                className="w-[40px] h-[40px] rounded-full"
-              />
+              <a
+                href={`https://www.youtube.com/channel/${channelData.items[0].id}`}
+              >
+                <img
+                  src={channelData.items[0].snippet.thumbnails.default.url}
+                  alt="chanel-pic"
+                  className="w-[40px] h-[40px] rounded-full"
+                />
+              </a>
               <div className="channel-center">
-                <h4 className="channel-name font-bold">NFrealmusic</h4>
-                <span className="text-sm text-gray-500">9.3M subscribers</span>
+                <a
+                  href={`https://www.youtube.com/channel/${channelData.items[0].id}`}
+                >
+                  <h4 className="channel-name font-bold">
+                    {video.items[0].snippet.channelTitle}
+                  </h4>
+                </a>
+                <span className="subscribers-count text-sm text-gray-500">
+                  {getSubscribersCount(channelData.items[0])}
+                  subscribers
+                </span>
               </div>
               <div className="channel-right flex items-center">
                 <button className="rounded-full text-sm font-bold bg-black hover:bg-[#2f2f2f] active:bg-[#4c4b4b] transition-all text-white w-[95px] h-[36px]">
@@ -52,7 +160,7 @@ const VideoPage = () => {
           <div className="video-details-right font-bold text-[#2b2a2a] text-sm flex space-x-3">
             <button className="flex items-center space-x-2 bg-[#f2f2f2] hover:bg-[#e5e5e5] active:bg-[#cecece] rounded-full p-2 px-4 rounded-r-none">
               <LikeIcon />
-              <span>301.6K</span>
+              <span className="likes-count">{getLikes(video.items[0])}</span>
             </button>
             <button className="flex items-center space-x-2 bg-[#f2f2f2] hover:bg-[#e5e5e5] active:bg-[#cecece] rounded-full p-2 px-4 rounded-l-none !ml-0">
               <DislikeIcon />
@@ -71,36 +179,42 @@ const VideoPage = () => {
           </div>
         </div>
 
-        <Description />
+        <Description video={video} />
 
         <div className="comments-section space-y-2 !mt-0">
           <div className="flex items-end space-x-8">
-            <span className="comments-number text-lg">34,531 Comments</span>
+            <span className="comments-count text-lg">
+              {video.items[0].statistics.commentCount / 1000 < 1
+                ? video.items[0].statistics.commentCount
+                : (video.items[0].statistics.commentCount / 1000)
+                  .toFixed(3)
+                  .replace('.', ',')}
+
+              <span className="ml-1">Comments</span>
+            </span>
             <span className="flex space-x-2 font-bold">
               <SortIcon /> <span>Sort by</span>
             </span>
           </div>
 
-          <WriteComment />
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
+          <WriteComment API_KEY={API_KEY} videoId={videoId} />
+
+          {comments.items
+            ? comments.items.map((comment, i) => (
+              <Comment key={i} comment={comment} />
+            ))
+            : ''}
         </div>
       </div>
 
       <div className="second-col w-[30%] space-y-4">
-        <SuggestedVideo />
-        <SuggestedVideo />
-        <SuggestedVideo />
-        <SuggestedVideo />
-        <SuggestedVideo />
-        <SuggestedVideo />
-        <SuggestedVideo />
-        <SuggestedVideo />
+        {relatedVideos.items.map((relatedVideo, i) => (
+          <SuggestedVideo
+            key={i}
+            relatedVideo={relatedVideo}
+            API_KEY={API_KEY}
+          />
+        ))}
       </div>
     </div>
   );
