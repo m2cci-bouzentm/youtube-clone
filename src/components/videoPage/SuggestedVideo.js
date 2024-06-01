@@ -5,6 +5,7 @@ import { getViews, getTimeDifference } from '../../helperFunctions';
 const SuggestedVideo = ({ relatedVideo, API_KEY }) => {
   const [video, setVideo] = useState(null);
 
+
   useEffect(() => {
     fetch(
       `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${relatedVideo.id.videoId}&key=${API_KEY.current}`
@@ -14,7 +15,9 @@ const SuggestedVideo = ({ relatedVideo, API_KEY }) => {
       .catch((err) => console.error(err));
   }, []);
 
-  if (!video || !video.items) return;
+
+  if (!video || video.items.length === 0) return;
+
 
   return (
     <div className="suggested-video-1 flex space-x-2 text-sm">
@@ -41,8 +44,13 @@ const SuggestedVideo = ({ relatedVideo, API_KEY }) => {
           <span>{relatedVideo.snippet.channelTitle}</span>
         </div>
         <div className="video-statistics flex space-x-2 text-gray-600">
-          <span>{getViews(video.items[0])} views</span>
-          <span>• {getTimeDifference(video.items[0].snippet.publishedAt)}</span>
+          {
+            video.items.length ?
+              <>
+                <span>{getViews(video.items[0])} views</span>
+                <span>• {getTimeDifference(video.items[0].snippet.publishedAt)} </span>
+              </>
+              : ''}
         </div>
       </div>
     </div>

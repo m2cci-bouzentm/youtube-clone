@@ -20,6 +20,7 @@ const VideoPage = ({
   setIsMiniSideBar,
   setIsSearching,
 }) => {
+
   const [video, setVideo] = useState(null);
   const [channelData, setChannelData] = useState(null);
   const [relatedVideos, setRelatedVideos] = useState(null);
@@ -29,10 +30,7 @@ const VideoPage = ({
 
   const relatedVideosNumber = useRef(20);
 
-  useEffect(() => {
-    setIsMiniSideBar(false);
-    setIsSearching(false);
-  }, []);
+
 
   const getVideo = () => {
     fetch(
@@ -42,9 +40,12 @@ const VideoPage = ({
       .then((videoData) => setVideo(videoData))
       .catch((err) => console.error(err));
   };
-  const getRelatedVideos = (videosNum) => {
+  //! Youtube API deprecrated 'relatedToVideoId' search type
+  //! I tryed to get some related videos by searching the tags of the video or by video title in worst case
+  const getRelatedVideos = (videosNum, videoTags, videoTitle) => {
     fetch(
-      `     https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=${videosNum}&relatedToVideoId=${videoId}&type=video&key=${API_KEY.current}`
+      // `     https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=${videosNum}&relatedToVideoId=${videoId}&type=video&key=${API_KEY.current}`
+      `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=${videosNum}&q=${videoTags || videoTitle}&key=${API_KEY.current}`
     )
       .then((res) => res.json())
       .then((relatedVidData) => setRelatedVideos(relatedVidData))
@@ -75,17 +76,19 @@ const VideoPage = ({
       .catch((err) => console.error(err));
   };
 
+
+  useEffect(() => {
+    setIsMiniSideBar(false);
+    setIsSearching(false);
+  }, []);
   useEffect(() => {
     // video data
     getVideo();
 
-    //related videos data
-    getRelatedVideos(relatedVideosNumber.current);
-
     //comments
     getComments();
-  }, [videoId]);
 
+  }, [videoId]);
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
 
@@ -93,8 +96,17 @@ const VideoPage = ({
     //channel data
     getChannelData();
 
+    //related videos data
+    if (video) {
+      const videoTags = video.items[0].snippet.tags.slice(0, 5).join('-');
+      const videoTitle = video.items[0].snippet.title;
+      getRelatedVideos(relatedVideosNumber.current, videoTags, videoTitle);
+    }
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, [video]);
+
+
 
   const handleScroll = (e) => {
     const bodyHeight = document.body.offsetHeight;
@@ -105,6 +117,7 @@ const VideoPage = ({
       getMoreComments();
     }
   };
+
 
   if (!video || !relatedVideos || !channelData || !comments) return;
 
@@ -208,13 +221,14 @@ const VideoPage = ({
       </div>
 
       <div className="second-col w-[30%] space-y-4">
-        {relatedVideos.items.map((relatedVideo, i) => (
+        {relatedVideos.items.map((relatedVideo, i) =>
           <SuggestedVideo
             key={i}
             relatedVideo={relatedVideo}
             API_KEY={API_KEY}
           />
-        ))}
+
+        )}
       </div>
     </div>
   );
