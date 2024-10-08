@@ -119,9 +119,8 @@ const VideoPage = ({
   };
 
 
-  if (!video || !relatedVideos || !channelData || !comments) return;
 
-  return (
+  return video && relatedVideos && channelData && comments && (
     <div
       className={`video-page flex space-x-[2%] py-8 px-[80px] w-full min-h-[100vh] ${isMiniSideBar ? 'pointer-events-none' : ''
         }`}

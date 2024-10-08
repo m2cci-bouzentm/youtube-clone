@@ -16,11 +16,14 @@ const HomePage = ({ API_KEY, setIsSearching, setIsMiniSideBar }) => {
     fetch('http://ip-api.com/json')
       .then((res) => res.json())
       .then((response) => setUserRegion(response.countryCode))
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        setUserRegion("FR");
+        console.error(err);
+      });
   };
   const getVideos = (videoNum) => {
     fetch(
-      `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=${videoNum}&regionCode=${userRegion || 'US'}&key=${API_KEY.current}`
+      `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=${videoNum}&regionCode=${userRegion || 'FR'}&key=${API_KEY.current}`
     )
       .then((res) => res.json())
       .then((data) => setVideos(data.items))
