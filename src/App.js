@@ -16,11 +16,8 @@ function App() {
   const [isSearching, setIsSearching] = useState(false);
   const [isMiniSideBar, setIsMiniSideBar] = useState(false);
 
-  const API_KEY = useRef('AIzaSyD2wcS9IPUkC6wkC3GtPvBfesIGwrQkIi0');
-  // AIzaSyD2wcS9IPUkC6wkC3GtPvBfesIGwrQkIi0
-  // AIzaSyDW7jlj_A7bCy3ZfSHfV9_4R_agbez6j1Q
-  // AIzaSyDdUwU9MbOcbqlJcC76mpP5MwTSVRmhgnI
-  // AIzaSyCwaxU0T1Z3AYmK0d6gL0B_XK8lrYvMl-A
+  const API_KEY = useRef(process.env.REACT_APP_API_KEY);
+
 
   return (
     <HashRouter>
