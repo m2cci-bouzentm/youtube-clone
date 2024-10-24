@@ -23,7 +23,7 @@ const MiniSideBarBtn = (btnText, Icon) => (
 
 const MiniSideBar = ({ isUserSignIn }) => {
   return (
-    <div className="mini-side-bar text-xs font-bold w-[90px] h-[70px] space-y-2">
+    <div className="mini-side-bar text-xs font-bold w-[90px] h-[70px] space-y-2 hidden md:block">
       <Link to="/">{MiniSideBarBtn('Home', HomeIcon)}</Link>
       {MiniSideBarBtn('Explore', ExploreIcon)}
       {MiniSideBarBtn('Subscriptions', subscribeIcon)}

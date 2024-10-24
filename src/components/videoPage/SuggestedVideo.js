@@ -8,7 +8,7 @@ const SuggestedVideo = ({ relatedVideo, API_KEY }) => {
 
   useEffect(() => {
     fetch(
-      `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${relatedVideo.id.videoId}&key=${API_KEY.current}`
+      `${process.env.REACT_APP_API_BASE_URL}/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${relatedVideo.id.videoId}&key=${API_KEY.current}`
     )
       .then((res) => res.json())
       .then((relatedVidData) => setVideo(relatedVidData))
@@ -35,7 +35,7 @@ const SuggestedVideo = ({ relatedVideo, API_KEY }) => {
         </Link>
       </div>
       <div className="details">
-        <div className="title text-md font-bold mb-2 text-gray-800">
+        <div className="title text-md font-bold min-w-[150px] mb-2 text-gray-800">
           <Link to={`/watch/${relatedVideo.id.videoId}`}>
             <h3>{relatedVideo.snippet.title}</h3>
           </Link>

@@ -31,8 +31,8 @@ const Nav = ({
   };
 
   return (
-    <nav className="flex items-center justify-between w-full py-1 px-8 sticky top-0 bg-[#fff] z-50">
-      <div className="left-nav-items flex items-center gap-[2rem]">
+    <nav className="flex items-center justify-between w-full py-2 px-4 md:px-8 sticky top-0 bg-[#fff] z-50">
+      <div className="left-nav-items flex items-center sm:gap-[2rem]">
         <button
           onClick={() => setIsMiniSideBar(!isMiniSideBar)}
           className="rounded-full hover:bg-[#e5e5e5] active:bg-[#cecece] p-3"
@@ -43,7 +43,7 @@ const Nav = ({
           <YoutubeLogo />
         </Link>
       </div>
-      <div className="middle-nav-items flex items-center w-[45%]">
+      <div className="middle-nav-items hidden md:flex items-center w-[45%]">
         <input
           id="search"
           type="text"
@@ -75,7 +75,7 @@ const Nav = ({
         ) : (
           <>
             <button>
-              <BiDotsVerticalRounded className="text-xl" />
+              <BiDotsVerticalRounded className="text-xl hidden md:block" />
             </button>
             <SignInBtn />
           </>

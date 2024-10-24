@@ -10,12 +10,20 @@ const SearchPage = ({ API_KEY, setIsMiniSideBar }) => {
 
   const getVideos = (videosNum) => {
     fetch(
-      `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=${videosNum}&q=${searchText}&key=${API_KEY.current}`
+      `${process.env.REACT_APP_API_BASE_URL}/search?part=snippet&maxResults=${videosNum}&q=${searchText}&key=${API_KEY.current}`
     )
       .then((res) => res.json())
       .then((data) => setVideos(data.items))
       .catch((err) => console.error(err));
   };
+
+  useEffect(() => {
+    if (window.innerWidth < 768)
+      setIsMiniSideBar(true);
+    else
+      setIsMiniSideBar(false);
+  }, []);
+
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -38,7 +46,7 @@ const SearchPage = ({ API_KEY, setIsMiniSideBar }) => {
   };
 
   return (
-    <div className="search-page flex flex-col py-6 h-max px-[80px] w-full">
+    <div className="search-page flex flex-col py-6 h-max px-[10px] md:px-[80px] w-full">
       <div className="my-4 border-b-[1px] font-bold">
         <button className="flex items-center space-x-2 hover:bg-[#e5e5e5] active:bg-[#cecece] rounded-full p-2 px-4">
           <FilterIcon />

@@ -64,9 +64,6 @@ nav .middle-nav-items button {
   font-family: sans-serif;
   font-size: 13.5px;
   font-weight: bolder;
-  position: absolute;
-  right: 5px;
-  bottom: 5px;
   padding: 0px 4px;
   border-radius: 2px;
 }

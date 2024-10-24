@@ -8,7 +8,7 @@ const Description = ({ video }) => {
     <>
       <div
         onClick={() => setIsShowMore(true)}
-        className={`description bg-[#f2f2f2] hover:bg-[#e5e5e5] rounded-2xl p-4 pb-9 cursor-pointer ${isShowMore ? 'pointer-events-none cursor-auto' : ''
+        className={`description bg-[#f2f2f2] w-full hover:bg-[#e5e5e5] rounded-2xl p-4 pb-9 cursor-pointer ${isShowMore ? 'pointer-events-none cursor-auto' : ''
           }`}
       >
         <div className="space-x-4">

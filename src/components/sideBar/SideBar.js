@@ -22,7 +22,7 @@ const SideBarBtn = (btnText, Icon) => (
 
 const SideBar = ({ isUserSignIn }) => {
   return (
-    <div className="side-bar text-sm py-1 px-8 pr-2 w-[250px] space-y-2">
+    <div className="side-bar absolute md:relative min-h-[1000px] h-full bg-white text-sm py-1 px-8 pr-2 w-[250px] space-y-2 z-50">
       <Link to="/">{SideBarBtn('Home', HomeIcon)}</Link>
       {SideBarBtn('Explore', ExploreIcon)}
       {SideBarBtn('Subscriptions', subscribeIcon)}
@@ -38,7 +38,7 @@ const SideBar = ({ isUserSignIn }) => {
         </>
       ) : (
         <>
-          <div className="flex flex-col w-full items-start pl-6 py-3 space-y-3 text-gray-800">
+          <div className="flex flex-col w-full h-full items-start pl-6 py-3 space-y-3 text-gray-800">
             <p>Sign in to like videos, comment and subscribe.</p>
             <SignInBtn />
           </div>

@@ -7,7 +7,7 @@ const VideoCard = ({ video, API_KEY }) => {
 
   useEffect(() => {
     fetch(
-      `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id=${video.snippet.channelId}&key=${API_KEY.current}`
+      `${process.env.REACT_APP_API_BASE_URL}/channels?part=snippet%2CcontentDetails%2Cstatistics&id=${video.snippet.channelId}&key=${API_KEY.current}`
     )
       .then((res) => res.json())
       .then((data) => setChannelData(data))
@@ -17,8 +17,8 @@ const VideoCard = ({ video, API_KEY }) => {
   if (!video.snippet.thumbnails.maxres) return;
 
   return (
-    <Link to={`/watch/${video.id}`} className="h-[320px] w-max">
-      <div className="video-card space-y-3 w-[340px]">
+    <Link to={`/watch/${video.id}`} className="h-[320px]">
+      <div className="video-card space-y-3 w-[340px] md:w-[340px]">
         <div className="thumbnail relative">
           <img
             src={video.snippet.thumbnails.maxres.url}

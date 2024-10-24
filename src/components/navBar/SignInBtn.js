@@ -16,7 +16,7 @@ const ColorButton = styled(Button)({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  width: 'max-content',
+  // width: 'max-content',
   padding: '5px 10px',
   '&:hover': {},
 });
@@ -41,7 +41,7 @@ const SignInBtn = () => {
   };
   return (
     <>
-      <ColorButton variant="outlined" onClick={handleClick}>
+      <ColorButton className='' variant="outlined" onClick={handleClick}>
         <ProfileIcon />
         <span>Sign In</span>
       </ColorButton>

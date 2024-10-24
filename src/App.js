@@ -4,7 +4,7 @@ import HomePage from './components/homePage/HomePage';
 import WhichSideBar from './components/sideBar/WhichSideBar';
 import VideoPage from './components/videoPage/VideoPage';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import MyContext from './MyContext';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import SearchPage from './components/searchPage/SearchPage';
@@ -14,7 +14,7 @@ function App() {
   const [user, setUser] = useState(null);
 
   const [isSearching, setIsSearching] = useState(false);
-  const [isMiniSideBar, setIsMiniSideBar] = useState(false);
+  const [isMiniSideBar, setIsMiniSideBar] = useState();
 
   const API_KEY = useRef(process.env.REACT_APP_API_KEY);
 

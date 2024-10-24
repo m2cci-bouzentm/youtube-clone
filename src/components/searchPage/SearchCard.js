@@ -8,7 +8,7 @@ const SearchCard = ({ video, API_KEY }) => {
 
   const getChannelData = () => {
     fetch(
-      `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id=${video.snippet.channelId}&key=${API_KEY.current}`
+      `${process.env.REACT_APP_API_BASE_URL}/channels?part=snippet%2CcontentDetails%2Cstatistics&id=${video.snippet.channelId}&key=${API_KEY.current}`
     )
       .then((res) => res.json())
       .then((data) => setChannelData(data))
@@ -36,15 +36,15 @@ const SearchCard = ({ video, API_KEY }) => {
   if (!channelData.items[0]) return;
 
   return (
-    <div className="video-card flex space-x-4 mb-6 w-full">
-      <Link to={`/watch/${video.id.videoId}`}>
-        <div className="thumbnail relative  h-[200px] w-[360px]">
+    <div className="video-card flex flex-col mb-20 md:mb-6 md:flex-row justify-center items-center space-x-4 w-full">
+      <Link to={`/watch/${video.id.videoId}`} className='w-full flex flex-col items-center justify-center'>
+        <div className="thumbnail relative h-[200px] w-[300px] md:w-[360px]">
           <img
             src={video.snippet.thumbnails.medium.url}
             alt="thumbnail"
-            className="w-full rounded-xl"
+            className="rounded-xl w-full md:min-w-[300px]"
           />
-          <div className="video-duration">
+          <div className="video-duration absolute right-[5px] bottom-[40px] md:bottom-[5px]">
             {videoComplementaryData.items[0].contentDetails.duration
               .replace(/H|M/g, ':')
               .replace(/PT|S/g, '')
@@ -53,8 +53,8 @@ const SearchCard = ({ video, API_KEY }) => {
         </div>
       </Link>
 
-      <div className="video-details flex flex-col">
-        <div className="text-2xl">
+      <div className="video-details w-full flex flex-col">
+        <div className="text-xl self-start md:text-2xl">
           <Link to={`/watch/${video.id.videoId}`}>
             <h2>{video.snippet.title}</h2>
           </Link>
@@ -85,7 +85,7 @@ const SearchCard = ({ video, API_KEY }) => {
             </a>
           </div>
         </div>
-        <div className="description flex text-[#606060] mt-4">
+        <div className="description hidden md:flex text-[#606060] mt-4">
           <p>{video.snippet.description}</p>
         </div>
       </div>
